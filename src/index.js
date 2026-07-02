@@ -77,7 +77,7 @@ const INFO = {
   name: 'Bohrium-js',
   version: '1.0.0',
   description: 'Api Oficial de @Cubiclauncher de bohrium para javaScript',
-  docs: 'https://github.com/Cubiclauncher/bohrium-js',
+  docs: 'https://github.com/CubiclauncherDevs/bohrium-js',
   endpoints: {
     'GET /': 'API info',
     'GET /health': 'Health check',
