@@ -1,0 +1,16 @@
+{
+  "name": "bohrium-js",
+  "version": "1.0.0",
+  "module": "src/index.js",
+  "type": "module",
+  "description": "Api Oficial de @Cubiclauncher de bohrium para javaScript",
+  "license": "GPL-3.0",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "start": "bun run src/index.js"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}
