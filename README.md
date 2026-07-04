@@ -32,13 +32,13 @@ Api de skins de Minecraft con soporte para **Mojang** y **Ely.by**. Corre 100% e
 ## Uso
 
 ```bash
-curl https://bohrium-js.cubiclauncher.com/api/skin/Notch
-curl https://bohrium-js.cubiclauncher.com/api/head/Notch?size=32
+curl https://skins.cubiclauncher.org/api/skin/Notch
+curl https://skins.cubiclauncher.org/api/head/Notch?size=32
 ```
 
 ## Deploy
 
 ```bash
-npm install
-npm run deploy
+bun install
+bun run deploy
 ```
