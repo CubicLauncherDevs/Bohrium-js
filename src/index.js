@@ -6,6 +6,14 @@ import { cleanUUID } from './lib/format';
 import { RateLimitError, NotFoundError } from './lib/errors';
 
 const START = Date.now();
+
+const DEFAULT_SKIN = {
+  uuid: '00000000-0000-0000-0000-000000000000',
+  username: 'Steve',
+  skinUrl: 'https://minotar.net/skin/Steve',
+  model: 'classic',
+  capeUrl: null,
+};
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
@@ -42,15 +50,14 @@ function buildRoutes(prefix, prov) {
 async function jsonOrErr(promise) {
   try {
     const r = await promise;
-    return r ? json(r) : json({ error: 'Not found' }, 404);
+    return json(r || DEFAULT_SKIN);
   } catch (e) { return handleError(e); }
 }
 
 async function headByName(input, prov, url) {
   try {
     const p = await prov.getUUID(input);
-    if (!p) return json({ error: 'Player not found' }, 404);
-    return serveHead(p.id, prov, url);
+    return serveHead(p?.id || null, prov, url);
   } catch (e) { return handleError(e); }
 }
 
@@ -61,10 +68,15 @@ async function headByUUID(input, prov, url) {
 }
 
 async function serveHead(uuid, prov, url) {
-  const d = await prov.getSkinDataByUUID(uuid);
-  if (!d?.skinUrl) return json({ error: 'Skin not found' }, 404);
+  let skinUrl = DEFAULT_SKIN.skinUrl;
+  if (uuid) {
+    try {
+      const d = await prov.getSkinDataByUUID(uuid);
+      if (d?.skinUrl) skinUrl = d.skinUrl;
+    } catch { /* usar default */ }
+  }
   const size = parseInt(url?.searchParams?.get('size') || '128', 10);
-  return html(renderHeadSVG(d.skinUrl, size), 200, { 'Cache-Control': 'public, max-age=3600' });
+  return html(renderHeadSVG(skinUrl, size), 200, { 'Cache-Control': 'public, max-age=3600' });
 }
 
 const ROUTES = [
